@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>e-signature</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/e-signature.css">
+    <script src="js/e-signature.js"></script>
+</head>
+<body>
+    <h1>e-signature draw tool</h1>
+    <div>
+        <br />
+        <button id="btn_undo" class="button" title="undo">Undo</button>
+        <button id="btn_clear" class="button" title="clear">Clear</button>
+        <button id="btn_reload" class="button" title="clear" onclick="document.location.reload();">Reload</button>
+        <button id="btn_image" class="button" title="clear">Image</button>
+    </div>
+    <br style="clear:both;" />
+    <div class="base-panel">
+        <canvas id="myCanvas" class="main-canvas" height="200" width="600"></canvas>
+    </div>
+    <div class="viewer">
+        <img src="" id="previewer">
+    </div>
+    <div class="slider-panel">
+        <span>細</span><input type="range" id="pensize" min="1" max="40" step="1" style="width:300px;" />
+        <strong id="lab_pensize"></strong>
+        <span>太</span>
+        <span id="eraser_mode"></span>
+        <br /><br />
+    </div>
+    <div id="puressure">
+        ◇筆圧　0～1の値が与えられる　※マウスクリックは0.5固定　
+        <input type="checkbox" id="random" value="1">乱数を使う(試行用)
+    </div>
+    <div id="log">　</div>
+    <br>
+    <div id="location">
+        ◇位置情報　
+        <button id="btn_location">取得</button>
+        <br>
+        <div id="log2" style="margin-top:10px;margin-left:15px;"></div>
+    </div>
+</body>
+</html>
