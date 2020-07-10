@@ -79,6 +79,7 @@
             }, false);
 
             // 端末・ブラウザ毎のイベント切り替え
+            // 現状、PointerEventに対応していないブラウザは非対応(対応する場合は要改修)
             var touchstart = 'touchstart';
             var touchmove = 'touchmove';
             var touchend = 'touchend';
@@ -104,13 +105,17 @@
             // 描画処理中イベント
             this.canvas.addEventListener(touchmove, function (event) {
                 Draw.touchMove(event); // continue drawing while dragging the pointer.
-                event.preventDefault();
-            }, { passive: false });
+            }, false);
 
             // 描画処理終了イベント
             this.canvas.addEventListener(touchend, function (event) {
                 Draw.touchEnd(event); // finish drawing.
             }, false);
+
+            // スクロール停止の処理
+            this.canvas.addEventListener('touchmove', function (event) {
+                event.preventDefault();
+            }, { passive: false });
 
         },
 
