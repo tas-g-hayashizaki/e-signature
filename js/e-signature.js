@@ -15,8 +15,12 @@
         startX: 0,
         startY: 0,
         startP: 0,
-        offset: 5, // 見えやすいようにちょっとずらす
+        offset: 0, // 見えやすいようにちょっとずらす
         undohist: [],
+
+        history: [],
+        startDate : null,
+        elapsedTime : null,
 
         initialize: function () {
 
@@ -71,6 +75,8 @@
             // クリア
             this.clearbtn.addEventListener("click", function (event) {
                 Draw.context.clearRect(0, 0, Draw.width, Draw.height);
+                document.getElementById("textarea").textContent = "";
+                document.getElementById("byte").innerHTML = 0;
             }, false);
 
             // 位置情報取得
@@ -166,6 +172,18 @@
             this.startP = event.pressure;
 
             this.undohist.push(this.context.getImageData(0, 0, this.width, this.height));
+
+            this.startDate = new Date();
+            this.elapsedTime = 0;
+
+            this.history = [];
+            var hist = {
+                positionX : this.startX,
+                positionY : this.startY,
+                pressure : this.startP,
+                time : this.elapsedTime
+            }
+            this.history.push(hist);
         },
 
         touchMove: function (event) {
@@ -216,11 +234,30 @@
                 this.startX = offsetX;
                 this.startY = offsetY;
                 this.startP = pressure;
+
+                this.elapsedTime = new Date() - this.startDate.getTime();
+
+                var hist = {
+                    positionX : this.startX,
+                    positionY : this.startY,
+                    pressure : this.startP,
+                    time : this.elapsedTime
+                }
+                this.history.push(hist);
             }
         },
 
         touchEnd: function (event) {
             this.drawing = false;
+
+            document.getElementById("textarea").textContent += JSON.stringify(this.history);
+
+            String.prototype.bytes = function () {
+                return(encodeURIComponent(this).replace(/%../g,"x").length);
+            }
+            var byte = document.getElementById("textarea").textContent.bytes();
+            document.getElementById("byte").innerHTML = byte;
+            
         }
     };
 
